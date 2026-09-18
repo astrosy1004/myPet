@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { extractJsonObject } from "@/lib/parse-json-response";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 // 모델 이름이 자주 바뀌거나 계정별 접근 권한이 다를 수 있어, 여러 후보를
 // 순서대로 시도해 그중 처음으로 성공하는 모델을 사용한다.
 const VISION_MODEL_CANDIDATES = ["gpt-5.1", "gpt-5", "gpt-4.1", "gpt-4o"];
+
+const MAX_FRAMES = 15;
+const MAX_FRAME_LENGTH = 500_000; // base64 문자열 길이 기준 대략 350KB
+const RATE_LIMIT_COUNT = 15;
+const RATE_LIMIT_WINDOW_MINUTES = 60;
 
 async function callVisionModel(
   apiKey: string,
@@ -61,6 +67,30 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: "필수 데이터가 누락되었습니다." },
       { status: 400 },
+    );
+  }
+
+  if (
+    frames.length > MAX_FRAMES ||
+    frames.some((f) => typeof f !== "string" || f.length > MAX_FRAME_LENGTH)
+  ) {
+    return NextResponse.json(
+      { error: "영상 프레임 데이터가 허용 범위를 초과했습니다." },
+      { status: 400 },
+    );
+  }
+
+  const withinLimit = await checkRateLimit(
+    supabase,
+    user.id,
+    "behavior_analyses",
+    RATE_LIMIT_COUNT,
+    RATE_LIMIT_WINDOW_MINUTES,
+  );
+  if (!withinLimit) {
+    return NextResponse.json(
+      { error: "시간당 분석 횟수 제한을 초과했습니다. 잠시 후 다시 시도해주세요." },
+      { status: 429 },
     );
   }
 

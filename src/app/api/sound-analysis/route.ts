@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { extractJsonObject } from "@/lib/parse-json-response";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 const CATEGORIES = ["hunger", "discomfort", "attention", "calm"] as const;
 type SoundCategory = (typeof CATEGORIES)[number];
@@ -11,6 +12,10 @@ const MIME_TO_FORMAT: Record<string, "wav" | "mp3"> = {
   "audio/mpeg": "mp3",
   "audio/mp3": "mp3",
 };
+
+const MAX_AUDIO_BYTES = 5 * 1024 * 1024; // 5MB
+const RATE_LIMIT_COUNT = 15;
+const RATE_LIMIT_WINDOW_MINUTES = 60;
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -47,6 +52,27 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: "mp3 또는 wav 형식의 오디오만 지원합니다." },
       { status: 400 },
+    );
+  }
+
+  if (audio.size > MAX_AUDIO_BYTES) {
+    return NextResponse.json(
+      { error: "오디오 파일은 5MB 이하만 업로드할 수 있습니다." },
+      { status: 400 },
+    );
+  }
+
+  const withinLimit = await checkRateLimit(
+    supabase,
+    user.id,
+    "sound_analyses",
+    RATE_LIMIT_COUNT,
+    RATE_LIMIT_WINDOW_MINUTES,
+  );
+  if (!withinLimit) {
+    return NextResponse.json(
+      { error: "시간당 분석 횟수 제한을 초과했습니다. 잠시 후 다시 시도해주세요." },
+      { status: 429 },
     );
   }
 

@@ -6,6 +6,7 @@ import { SOUND_CATEGORY_ICON, SOUND_CATEGORY_LABEL } from "@/lib/labels";
 import type { Species } from "@/lib/types";
 
 const MAX_SECONDS = 30;
+const MAX_FILE_BYTES = 5 * 1024 * 1024; // 5MB
 
 type Result = { category: string; confidence: number; reason: string | null };
 
@@ -95,6 +96,13 @@ export function SoundAnalyzer({
     if (!file) return;
     setError(null);
     setResult(null);
+
+    if (file.size > MAX_FILE_BYTES) {
+      setError("오디오 파일은 5MB 이하만 업로드할 수 있습니다.");
+      e.target.value = "";
+      return;
+    }
+
     setAudioBlob(file);
     setAudioUrl(URL.createObjectURL(file));
   }
@@ -142,8 +150,13 @@ export function SoundAnalyzer({
 
   return (
     <div className="rounded-2xl bg-white p-6 shadow-sm">
-      <p className="mb-4 text-sm text-zinc-500">
-        최대 {MAX_SECONDS}초까지 녹음하거나 mp3/wav 파일을 업로드해주세요.
+      <p className="mb-2 text-sm text-zinc-500">
+        최대 {MAX_SECONDS}초까지 녹음하거나 mp3/wav 파일(5MB 이하)을
+        업로드해주세요.
+      </p>
+      <p className="mb-4 text-xs text-zinc-400">
+        🔒 업로드/녹음한 음성은 분석을 위해 OpenAI 서버로 전송되며, 별도로
+        저장되지 않습니다.
       </p>
 
       {!audioUrl && (

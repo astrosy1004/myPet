@@ -7,6 +7,7 @@ const MAX_DURATION_SEC = 30;
 const FRAME_INTERVAL_SEC = 1.5;
 const MAX_FRAMES = 12;
 const FRAME_WIDTH = 480;
+const MAX_FILE_BYTES = 100 * 1024 * 1024; // 100MB
 
 type Result = { description: string; isAnomaly: boolean; reason: string | null };
 
@@ -86,6 +87,13 @@ export function BehaviorAnalyzer({
 
     setError(null);
     setResult(null);
+
+    if (file.size > MAX_FILE_BYTES) {
+      setError("영상 파일은 100MB 이하만 업로드할 수 있습니다.");
+      e.target.value = "";
+      return;
+    }
+
     setVideoUrl(URL.createObjectURL(file));
     setFrames(null);
     setExtracting(true);
@@ -141,9 +149,14 @@ export function BehaviorAnalyzer({
 
   return (
     <div className="rounded-2xl bg-white p-6 shadow-sm">
-      <p className="mb-4 text-sm text-zinc-500">
-        최대 {MAX_DURATION_SEC}초 분량의 mp4/mov 영상을 업로드해주세요. 영상에서
-        {FRAME_INTERVAL_SEC}초 간격으로 프레임을 추출해 분석합니다.
+      <p className="mb-2 text-sm text-zinc-500">
+        최대 {MAX_DURATION_SEC}초 분량의 mp4/mov 영상(100MB 이하)을
+        업로드해주세요. 영상에서 {FRAME_INTERVAL_SEC}초 간격으로 프레임을
+        추출해 분석합니다.
+      </p>
+      <p className="mb-4 text-xs text-zinc-400">
+        🔒 영상에서 추출한 이미지 프레임은 분석을 위해 OpenAI 서버로
+        전송되며, 원본 영상은 서버에 저장되지 않습니다.
       </p>
 
       {!videoUrl && (
