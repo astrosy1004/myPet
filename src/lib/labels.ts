@@ -23,3 +23,10 @@ export const SOUND_CATEGORY_LABEL: Record<string, string> = {
   attention: "관심 요청",
   calm: "평온",
 };
+
+export const SOUND_CATEGORY_ICON: Record<string, string> = {
+  hunger: "🍽️",
+  discomfort: "😾",
+  attention: "🙋",
+  calm: "😌",
+};

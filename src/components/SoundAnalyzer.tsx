@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { audioBufferToWav } from "@/lib/wav-encoder";
-import { SOUND_CATEGORY_LABEL } from "@/lib/labels";
+import { SOUND_CATEGORY_ICON, SOUND_CATEGORY_LABEL } from "@/lib/labels";
 import type { Species } from "@/lib/types";
 
 const MAX_SECONDS = 30;
@@ -197,17 +197,30 @@ export function SoundAnalyzer({
       {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
 
       {result && (
-        <div className="mt-4 rounded-xl bg-orange-50 p-4">
-          <p className="text-lg font-bold text-orange-700">
+        <div className="mt-4 flex flex-col items-center gap-3 rounded-2xl bg-gradient-to-b from-orange-50 to-white p-6 text-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 text-4xl shadow-inner">
+            {SOUND_CATEGORY_ICON[result.category] ?? "🐾"}
+          </div>
+          <p className="text-xl font-bold text-orange-700">
             {SOUND_CATEGORY_LABEL[result.category] ?? result.category}
-            <span className="ml-2 text-sm font-normal text-orange-500">
-              확신도 {result.confidence}%
-            </span>
           </p>
+
+          <div className="w-full max-w-[220px]">
+            <div className="h-2 w-full overflow-hidden rounded-full bg-orange-100">
+              <div
+                className="h-full rounded-full bg-orange-400 transition-all"
+                style={{ width: `${result.confidence}%` }}
+              />
+            </div>
+            <p className="mt-1 text-xs font-medium text-orange-500">
+              확신도 {result.confidence}%
+            </p>
+          </div>
+
           {result.reason && (
-            <p className="mt-1 text-sm text-zinc-600">{result.reason}</p>
+            <p className="text-sm text-zinc-600">{result.reason}</p>
           )}
-          <p className="mt-2 text-xs text-zinc-400">
+          <p className="text-xs text-zinc-400">
             ⚠️ 참고용 추정치입니다. 정확한 진단은 수의사와 상담하세요.
           </p>
         </div>

@@ -200,26 +200,39 @@ export function BehaviorAnalyzer({
       {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
 
       {result && (
-        <div className="mt-4 rounded-xl bg-sky-50 p-4">
-          <p className="text-base font-bold text-sky-700">
+        <div
+          className={`mt-4 flex flex-col items-center gap-3 rounded-2xl p-6 text-center ${
+            result.isAnomaly
+              ? "bg-gradient-to-b from-red-50 to-white"
+              : "bg-gradient-to-b from-emerald-50 to-white"
+          }`}
+        >
+          <div
+            className={`flex h-20 w-20 items-center justify-center rounded-full text-4xl shadow-inner ${
+              result.isAnomaly ? "bg-red-100" : "bg-emerald-100"
+            }`}
+          >
+            {result.isAnomaly ? "⚠️" : "🐾"}
+          </div>
+
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${
+              result.isAnomaly
+                ? "bg-red-100 text-red-600"
+                : "bg-emerald-100 text-emerald-600"
+            }`}
+          >
+            이상 징후 {result.isAnomaly ? "있음" : "없음"}
+          </span>
+
+          <p className="text-base font-bold text-zinc-800">
             {result.description}
           </p>
-          <p className="mt-1 text-sm">
-            이상 징후:{" "}
-            <span
-              className={
-                result.isAnomaly
-                  ? "font-semibold text-red-500"
-                  : "font-semibold text-emerald-600"
-              }
-            >
-              {result.isAnomaly ? "있음" : "없음"}
-            </span>
-          </p>
+
           {result.reason && (
-            <p className="mt-1 text-sm text-zinc-600">{result.reason}</p>
+            <p className="text-sm text-zinc-600">{result.reason}</p>
           )}
-          <p className="mt-2 text-xs text-zinc-400">
+          <p className="text-xs text-zinc-400">
             ⚠️ 참고용 추정치입니다. 정확한 진단은 수의사와 상담하세요.
           </p>
         </div>

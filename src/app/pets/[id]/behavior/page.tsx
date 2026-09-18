@@ -59,19 +59,24 @@ export default async function BehaviorPage({
               {analyses.map((a) => (
                 <li
                   key={a.id}
-                  className="rounded-lg bg-white px-4 py-2 text-sm shadow-sm"
+                  className="flex items-start gap-3 rounded-lg bg-white px-4 py-2 text-sm shadow-sm"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-zinc-700">{a.description}</span>
-                    <span className="text-xs text-zinc-400">
-                      {new Date(a.created_at).toLocaleDateString("ko-KR")}
-                    </span>
+                  <span className="text-lg">{a.is_anomaly ? "⚠️" : "🐾"}</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="truncate text-zinc-700">
+                        {a.description}
+                      </span>
+                      <span className="shrink-0 text-xs text-zinc-400">
+                        {new Date(a.created_at).toLocaleDateString("ko-KR")}
+                      </span>
+                    </div>
+                    {a.is_anomaly && (
+                      <span className="mt-1 inline-block rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-600">
+                        이상 징후 있음
+                      </span>
+                    )}
                   </div>
-                  {a.is_anomaly && (
-                    <span className="mt-1 inline-block text-xs font-semibold text-red-500">
-                      이상 징후 있음
-                    </span>
-                  )}
                 </li>
               ))}
             </ul>

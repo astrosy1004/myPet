@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SoundAnalyzer } from "@/components/SoundAnalyzer";
-import { SOUND_CATEGORY_LABEL } from "@/lib/labels";
+import { SOUND_CATEGORY_ICON, SOUND_CATEGORY_LABEL } from "@/lib/labels";
 import type { Pet } from "@/lib/types";
 
 type SoundAnalysisRow = {
@@ -60,9 +60,14 @@ export default async function SoundPage({
               {analyses.map((a) => (
                 <li
                   key={a.id}
-                  className="flex items-center justify-between rounded-lg bg-white px-4 py-2 text-sm shadow-sm"
+                  className="flex items-center gap-3 rounded-lg bg-white px-4 py-2 text-sm shadow-sm"
                 >
-                  <span className="text-zinc-700">
+                  <span className="text-lg">
+                    {a.predicted_category
+                      ? (SOUND_CATEGORY_ICON[a.predicted_category] ?? "🐾")
+                      : "🐾"}
+                  </span>
+                  <span className="flex-1 text-zinc-700">
                     {a.predicted_category
                       ? (SOUND_CATEGORY_LABEL[a.predicted_category] ??
                         a.predicted_category)
