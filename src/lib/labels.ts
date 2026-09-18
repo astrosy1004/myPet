@@ -16,3 +16,10 @@ export const ACTIVITY_LABEL: Record<ActivityLevel, string> = {
   moderate: "보통",
   active: "활동적",
 };
+
+export const SOUND_CATEGORY_LABEL: Record<string, string> = {
+  hunger: "배고픔",
+  discomfort: "불편함",
+  attention: "관심 요청",
+  calm: "평온",
+};

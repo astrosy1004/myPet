@@ -42,6 +42,12 @@ export default async function PetDetailPage({
         </Link>
         <div className="flex items-center gap-4">
           <Link
+            href={`/pets/${pet.id}/sound`}
+            className="text-sm font-medium text-orange-600 hover:underline"
+          >
+            🔊 울음 해석
+          </Link>
+          <Link
             href={`/pets/${pet.id}/edit`}
             className="text-sm font-medium text-orange-600 hover:underline"
           >
