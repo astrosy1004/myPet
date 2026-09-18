@@ -160,3 +160,29 @@ export async function deletePet(petId: string): Promise<void> {
   if (error) throw new Error(error.message);
   revalidatePath("/");
 }
+
+export async function addWeightLog(
+  petId: string,
+  _prevState: PetFormState,
+  formData: FormData,
+): Promise<PetFormState> {
+  const supabase = await createClient();
+
+  const weightKg = Number(formData.get("weight_kg"));
+  const recordedAt =
+    String(formData.get("recorded_at") ?? "") ||
+    new Date().toISOString().split("T")[0];
+
+  if (!weightKg || weightKg <= 0) {
+    return { error: "체중을 올바르게 입력해주세요." };
+  }
+
+  const { error } = await supabase
+    .from("weight_logs")
+    .insert({ pet_id: petId, weight_kg: weightKg, recorded_at: recordedAt });
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/pets/${petId}`);
+  return {};
+}

@@ -4,6 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import { ACTIVITY_LABEL, GENDER_LABEL, SPECIES_LABEL } from "@/lib/labels";
 import { formatAge } from "@/lib/age";
 import { DeletePetButton } from "@/components/DeletePetButton";
+import { AddWeightForm } from "@/components/AddWeightForm";
+import { WeightChart } from "@/components/WeightChart";
+import { FeedCalculator } from "@/components/FeedCalculator";
 import type { Pet, WeightLog } from "@/lib/types";
 
 export default async function PetDetailPage({
@@ -98,7 +101,29 @@ export default async function PetDetailPage({
           </div>
         </dl>
 
+        {latestWeight && (
+          <div className="mb-8">
+            <FeedCalculator
+              weightKg={latestWeight}
+              species={pet.species}
+              activityLevel={pet.activity_level}
+              isNeutered={pet.is_neutered}
+            />
+          </div>
+        )}
+
         <h2 className="mb-3 text-lg font-semibold text-zinc-900">체중 기록</h2>
+
+        <div className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+          <AddWeightForm petId={pet.id} />
+        </div>
+
+        {weightLogs && weightLogs.length > 0 && (
+          <div className="mb-4">
+            <WeightChart weightLogs={weightLogs} />
+          </div>
+        )}
+
         {weightLogs && weightLogs.length > 0 ? (
           <ul className="divide-y divide-zinc-100 rounded-2xl bg-white shadow-sm">
             {weightLogs.map((log) => (
