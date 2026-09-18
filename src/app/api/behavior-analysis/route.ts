@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { extractJsonObject } from "@/lib/parse-json-response";
 
 // 모델 이름이 자주 바뀌거나 계정별 접근 권한이 다를 수 있어, 여러 후보를
 // 순서대로 시도해 그중 처음으로 성공하는 모델을 사용한다.
@@ -20,7 +21,6 @@ async function callVisionModel(
       },
       body: JSON.stringify({
         model,
-        response_format: { type: "json_object" },
         messages,
       }),
     });
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     {
       role: "system",
       content:
-        '너는 반려동물 행동 영상을 보고 행동을 설명하는 도우미다. 여러 장의 연속된 프레임 이미지를 시간 순서대로 받는다. 반드시 다음 JSON 형식으로만 답하라: {"description": "한두 문장 한국어 행동 설명", "is_anomaly": true 또는 false, "reason": "이상 징후로 판단했거나 판단하지 않은 이유 한 문장"}. 이 추정은 참고용이며 수의학적 진단이 아니다.',
+        '너는 반려동물 행동 영상을 보고 행동을 설명하는 도우미다. 여러 장의 연속된 프레임 이미지를 시간 순서대로 받는다. 다른 설명이나 코드블록 없이 반드시 다음 JSON 객체 하나만 출력하라: {"description": "한두 문장 한국어 행동 설명", "is_anomaly": true 또는 false, "reason": "이상 징후로 판단했거나 판단하지 않은 이유 한 문장"}. 이 추정은 참고용이며 수의학적 진단이 아니다.',
     },
     {
       role: "user",
@@ -108,10 +108,8 @@ export async function POST(request: Request) {
   const completion = await result.res.json();
   const rawContent: string | undefined = completion.choices?.[0]?.message?.content;
 
-  let parsed: { description?: string; is_anomaly?: boolean; reason?: string };
-  try {
-    parsed = JSON.parse(rawContent ?? "{}");
-  } catch {
+  const parsed = extractJsonObject(rawContent);
+  if (!parsed) {
     return NextResponse.json(
       { error: "분석 결과를 해석하지 못했습니다.", detail: rawContent },
       { status: 502 },

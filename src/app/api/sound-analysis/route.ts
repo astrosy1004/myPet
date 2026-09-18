@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { extractJsonObject } from "@/lib/parse-json-response";
 
 const CATEGORIES = ["hunger", "discomfort", "attention", "calm"] as const;
 type SoundCategory = (typeof CATEGORIES)[number];
@@ -64,12 +65,11 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         model: "gpt-audio-1.5",
         modalities: ["text"],
-        response_format: { type: "json_object" },
         messages: [
           {
             role: "system",
             content:
-              '너는 반려동물 울음소리를 듣고 감정 상태를 추정하는 도우미다. 반드시 다음 JSON 형식으로만 답하라: {"category": "hunger" | "discomfort" | "attention" | "calm" 중 하나, "confidence": 0-100 사이 정수, "reason": 한 문장 한국어 설명}. 이 추정은 참고용이며 수의학적 진단이 아니다.',
+              '너는 반려동물 울음소리를 듣고 감정 상태를 추정하는 도우미다. 다른 설명이나 코드블록 없이 반드시 다음 JSON 객체 하나만 출력하라: {"category": "hunger" | "discomfort" | "attention" | "calm" 중 하나, "confidence": 0-100 사이 정수, "reason": 한 문장 한국어 설명}. 이 추정은 참고용이며 수의학적 진단이 아니다.',
           },
           {
             role: "user",
@@ -101,10 +101,8 @@ export async function POST(request: Request) {
   const completion = await completionRes.json();
   const rawContent: string | undefined = completion.choices?.[0]?.message?.content;
 
-  let parsed: { category?: string; confidence?: number; reason?: string };
-  try {
-    parsed = JSON.parse(rawContent ?? "{}");
-  } catch {
+  const parsed = extractJsonObject(rawContent);
+  if (!parsed) {
     return NextResponse.json(
       { error: "분석 결과를 해석하지 못했습니다.", detail: rawContent },
       { status: 502 },
