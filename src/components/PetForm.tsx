@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { createPet, updatePet, type PetFormState } from "@/app/pets/actions";
-import type { Pet } from "@/lib/types";
+import type { Pet, Species } from "@/lib/types";
 
 const initialState: PetFormState = {};
 
@@ -10,9 +10,25 @@ const inputClass =
   "w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-orange-400 focus:outline-none";
 const labelClass = "mb-1 block text-sm font-medium text-zinc-700";
 
-export function PetForm({ pet }: { pet?: Pet }) {
+export type BreedOption = { species: Species; name: string };
+
+export function PetForm({
+  pet,
+  breeds,
+}: {
+  pet?: Pet;
+  breeds: BreedOption[];
+}) {
   const action = pet ? updatePet.bind(null, pet.id) : createPet;
   const [state, formAction, isPending] = useActionState(action, initialState);
+  const [species, setSpecies] = useState<Species>(pet?.species ?? "cat");
+
+  const breedOptions = breeds
+    .filter((b) => b.species === species)
+    .map((b) => b.name);
+  if (pet?.breed && !breedOptions.includes(pet.breed)) {
+    breedOptions.unshift(pet.breed);
+  }
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
@@ -34,7 +50,8 @@ export function PetForm({ pet }: { pet?: Pet }) {
           <select
             name="species"
             required
-            defaultValue={pet?.species ?? "cat"}
+            value={species}
+            onChange={(e) => setSpecies(e.target.value as Species)}
             className={inputClass}
           >
             <option value="cat">고양이</option>
@@ -58,14 +75,21 @@ export function PetForm({ pet }: { pet?: Pet }) {
 
       <div>
         <label className={labelClass}>품종</label>
-        <input
-          type="text"
+        <select
           name="breed"
           required
           defaultValue={pet?.breed ?? ""}
           className={inputClass}
-          placeholder="예: 코리안숏헤어"
-        />
+        >
+          <option value="" disabled>
+            품종 선택
+          </option>
+          {breedOptions.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="grid grid-cols-2 gap-4">

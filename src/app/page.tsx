@@ -19,14 +19,28 @@ export default async function Home() {
     <div className="flex flex-1 flex-col">
       <header className="flex items-center justify-between border-b border-zinc-200 bg-white px-6 py-4">
         <h1 className="text-lg font-bold text-zinc-900">🐾 행복한 집사생활</h1>
-        <form action="/auth/signout" method="post">
-          <button
-            type="submit"
+        <nav className="flex items-center gap-4">
+          <Link
+            href="/breeds"
             className="text-sm text-zinc-500 hover:text-zinc-800"
           >
-            로그아웃
-          </button>
-        </form>
+            품종 정보
+          </Link>
+          <Link
+            href="/vets"
+            className="text-sm text-zinc-500 hover:text-zinc-800"
+          >
+            동물병원
+          </Link>
+          <form action="/auth/signout" method="post">
+            <button
+              type="submit"
+              className="text-sm text-zinc-500 hover:text-zinc-800"
+            >
+              로그아웃
+            </button>
+          </form>
+        </nav>
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">

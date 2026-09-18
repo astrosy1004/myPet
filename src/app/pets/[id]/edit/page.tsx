@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { PetForm } from "@/components/PetForm";
+import { PetForm, type BreedOption } from "@/components/PetForm";
 import type { Pet } from "@/lib/types";
 
 export default async function EditPetPage({
@@ -19,12 +19,18 @@ export default async function EditPetPage({
 
   if (!pet) notFound();
 
+  const { data: breeds } = await supabase
+    .from("breeds")
+    .select("species, name")
+    .order("name")
+    .returns<BreedOption[]>();
+
   return (
     <div className="mx-auto w-full max-w-lg flex-1 px-6 py-10">
       <h1 className="mb-6 text-xl font-bold text-zinc-900">
         반려동물 정보 수정
       </h1>
-      <PetForm pet={pet} />
+      <PetForm pet={pet} breeds={breeds ?? []} />
     </div>
   );
 }
