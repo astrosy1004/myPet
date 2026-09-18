@@ -33,39 +33,78 @@ body {
 
   --color-white: #fffaf6;
 
-  --color-orange-50: #fff0f5;
-  --color-orange-100: #ffd9e8;
-  --color-orange-400: #ff8fb3;
-  --color-orange-500: #ff6f9c;
-  --color-orange-600: #ff4785;
-  --color-orange-700: #e6367a;
+  --color-orange-50: #fff0f7;
+  --color-orange-100: #ffc2dd;
+  --color-orange-400: #ff6fa5;
+  --color-orange-500: #ff3d8a;
+  --color-orange-600: #f0116b;
+  --color-orange-700: #d1005a;
 
-  --color-sky-50: #eef8ff;
-  --color-sky-100: #d6f0ff;
-  --color-sky-500: #4fb6e8;
-  --color-sky-600: #2f9fd8;
+  --color-sky-50: #e0f7ff;
+  --color-sky-100: #b3ecff;
+  --color-sky-500: #29b6f6;
+  --color-sky-600: #159fdb;
 
-  --color-emerald-50: #eafff5;
-  --color-emerald-100: #c9ffe8;
-  --color-emerald-600: #16b87a;
+  --color-emerald-50: #e3fff0;
+  --color-emerald-100: #baffd9;
+  --color-emerald-600: #00c853;
 
   --color-red-50: #fff0ee;
-  --color-red-100: #ffdcd6;
-  --color-red-500: #ff6b5b;
-  --color-red-600: #f04a38;
+  --color-red-100: #ffd0c7;
+  --color-red-500: #ff5252;
+  --color-red-600: #e63939;
 
-  --color-zinc-50: #fdf6fb;
-  --color-zinc-100: #f7e9f3;
-  --color-zinc-200: #f0d9ea;
-  --color-zinc-300: #e0c0d8;
-  --color-zinc-400: #b593ab;
-  --color-zinc-500: #8a6580;
-  --color-zinc-600: #6b4d63;
-  --color-zinc-700: #55394f;
-  --color-zinc-800: #402a3c;
-  --color-zinc-900: #33202f;
+  --color-zinc-50: #fdf3fa;
+  --color-zinc-100: #f9e3f2;
+  --color-zinc-200: #f2cbe6;
+  --color-zinc-300: #e0a8cf;
+  --color-zinc-400: #b070a0;
+  --color-zinc-500: #8a4d7d;
+  --color-zinc-600: #6b3a61;
+  --color-zinc-700: #552e4d;
+  --color-zinc-800: #402339;
+  --color-zinc-900: #33192c;
 
-  --radius-lg: 0.75rem;
-  --radius-xl: 1.1rem;
-  --radius-2xl: 1.5rem;
+  --radius-lg: 0.9rem;
+  --radius-xl: 1.3rem;
+  --radius-2xl: 1.75rem;
+}
+
+/* 배경 컨페티 패턴 + 헤딩 장식 + 통통 튀는 호버 애니메이션 */
+:root[data-theme="cute"] body {
+  background-image:
+    radial-gradient(circle, #ffb3d6 1.5px, transparent 1.5px),
+    radial-gradient(circle, var(--color-sky-100) 1.5px, transparent 1.5px);
+  background-size: 28px 28px, 28px 28px;
+  background-position: 0 0, 14px 14px;
+}
+
+:root[data-theme="cute"] h1 {
+  color: var(--color-orange-600);
+  text-shadow: 2px 2px 0 var(--color-orange-100);
+  letter-spacing: 0.02em;
+}
+
+:root[data-theme="cute"] h1::before {
+  content: "✨ ";
+}
+
+:root[data-theme="cute"] h2 {
+  color: var(--color-orange-600);
+}
+
+:root[data-theme="cute"] button,
+:root[data-theme="cute"] a {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+:root[data-theme="cute"] button:hover,
+:root[data-theme="cute"] a:hover {
+  transform: scale(1.06) rotate(-1deg);
+}
+
+:root[data-theme="cute"] .shadow-sm {
+  box-shadow: 0 4px 14px rgba(255, 61, 138, 0.18);
 }
