@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-body: var(--font-geist-sans);
 }
 
 @theme inline {
@@ -22,5 +23,49 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+/* 귀여운 파스텔 스킨: Tailwind v4는 팔레트를 CSS 변수로 컴파일하므로
+   변수만 덮어써서 컴포넌트 수정 없이 전체 테마를 바꿀 수 있다. */
+:root[data-theme="cute"] {
+  --font-body: var(--font-jua);
+
+  --color-white: #fffaf6;
+
+  --color-orange-50: #fff0f5;
+  --color-orange-100: #ffd9e8;
+  --color-orange-400: #ff8fb3;
+  --color-orange-500: #ff6f9c;
+  --color-orange-600: #ff4785;
+  --color-orange-700: #e6367a;
+
+  --color-sky-50: #eef8ff;
+  --color-sky-100: #d6f0ff;
+  --color-sky-500: #4fb6e8;
+  --color-sky-600: #2f9fd8;
+
+  --color-emerald-50: #eafff5;
+  --color-emerald-100: #c9ffe8;
+  --color-emerald-600: #16b87a;
+
+  --color-red-50: #fff0ee;
+  --color-red-100: #ffdcd6;
+  --color-red-500: #ff6b5b;
+  --color-red-600: #f04a38;
+
+  --color-zinc-50: #fdf6fb;
+  --color-zinc-100: #f7e9f3;
+  --color-zinc-200: #f0d9ea;
+  --color-zinc-300: #e0c0d8;
+  --color-zinc-400: #b593ab;
+  --color-zinc-500: #8a6580;
+  --color-zinc-600: #6b4d63;
+  --color-zinc-700: #55394f;
+  --color-zinc-800: #402a3c;
+  --color-zinc-900: #33202f;
+
+  --radius-lg: 0.75rem;
+  --radius-xl: 1.1rem;
+  --radius-2xl: 1.5rem;
 }
