@@ -62,7 +62,7 @@ export async function POST(request: Request) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o-audio-preview",
+        model: "gpt-audio-1.5",
         modalities: ["text"],
         response_format: { type: "json_object" },
         messages: [
