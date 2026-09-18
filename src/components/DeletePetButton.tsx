@@ -23,9 +23,10 @@ export function DeletePetButton({ petId }: { petId: string }) {
       type="button"
       onClick={handleDelete}
       disabled={isPending}
-      className="text-sm font-medium text-red-500 hover:underline disabled:opacity-50"
+      title="삭제"
+      className="flex h-9 w-9 items-center justify-center rounded-full bg-red-50 text-lg transition hover:bg-red-100 disabled:opacity-50"
     >
-      {isPending ? "삭제 중..." : "삭제"}
+      {isPending ? "⏳" : "🗑️"}
     </button>
   );
 }

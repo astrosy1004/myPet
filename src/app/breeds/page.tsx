@@ -33,15 +33,20 @@ export default async function BreedsPage({
 
   return (
     <div className="flex flex-1 flex-col">
-      <header className="flex items-center justify-between border-b border-zinc-200 bg-white px-6 py-4">
-        <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800">
+      <header className="flex items-center justify-between gap-2 border-b border-zinc-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
+        <Link
+          href="/"
+          className="shrink-0 text-sm text-zinc-500 hover:text-zinc-800"
+        >
           ← 홈으로
         </Link>
-        <h1 className="text-lg font-bold text-zinc-900">📖 품종 정보</h1>
-        <span className="w-12" />
+        <h1 className="truncate text-base font-bold text-zinc-900 sm:text-lg">
+          📖 품종 정보
+        </h1>
+        <span className="w-8 shrink-0 sm:w-12" />
       </header>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:px-6 sm:py-10">
         <form method="get" className="mb-6 flex flex-wrap gap-3">
           <select
             name="species"

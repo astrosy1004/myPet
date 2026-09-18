@@ -26,13 +26,15 @@ export function FeedCalculator({
   });
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-zinc-900">
+    <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
+      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-lg font-semibold whitespace-nowrap text-zinc-900">
           🍽️ 오늘의 사료량
         </h2>
         <div className="flex items-center gap-2 text-xs text-zinc-500">
-          <label htmlFor="kcal">사료 칼로리</label>
+          <label htmlFor="kcal" className="whitespace-nowrap">
+            사료 칼로리
+          </label>
           <input
             id="kcal"
             type="number"
@@ -40,9 +42,9 @@ export function FeedCalculator({
             step="10"
             value={kcalPer100g}
             onChange={(e) => setKcalPer100g(Number(e.target.value) || 0)}
-            className="w-20 rounded-lg border border-zinc-300 px-2 py-1 text-right focus:border-orange-400 focus:outline-none"
+            className="w-20 shrink-0 rounded-lg border border-zinc-300 px-2 py-1 text-right focus:border-orange-400 focus:outline-none"
           />
-          <span>kcal/100g</span>
+          <span className="whitespace-nowrap">kcal/100g</span>
         </div>
       </div>
 

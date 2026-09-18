@@ -36,34 +36,40 @@ export default async function PetDetailPage({
 
   return (
     <div className="flex flex-1 flex-col">
-      <header className="flex items-center justify-between border-b border-zinc-200 bg-white px-6 py-4">
-        <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800">
-          ← 목록으로
+      <header className="flex items-center justify-between border-b border-zinc-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
+        <Link
+          href="/"
+          className="shrink-0 text-sm text-zinc-500 hover:text-zinc-800"
+        >
+          ← 목록
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1.5">
           <Link
             href={`/pets/${pet.id}/sound`}
-            className="text-sm font-medium text-orange-600 hover:underline"
+            title="울음 해석"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-50 text-lg transition hover:bg-orange-100"
           >
-            🔊 울음 해석
+            🔊
           </Link>
           <Link
             href={`/pets/${pet.id}/behavior`}
-            className="text-sm font-medium text-sky-600 hover:underline"
+            title="행동 분석"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-lg transition hover:bg-sky-100"
           >
-            🎥 행동 분석
+            🎥
           </Link>
           <Link
             href={`/pets/${pet.id}/edit`}
-            className="text-sm font-medium text-orange-600 hover:underline"
+            title="수정"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-100 text-lg transition hover:bg-zinc-200"
           >
-            수정
+            ✏️
           </Link>
           <DeletePetButton petId={pet.id} />
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-2xl flex-1 px-6 py-10">
+      <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-6 sm:px-6 sm:py-10">
         <div className="mb-6 flex items-center gap-4">
           <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-orange-100 text-4xl">
             {pet.profile_image_url ? (
