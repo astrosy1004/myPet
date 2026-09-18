@@ -48,6 +48,12 @@ export default async function PetDetailPage({
             🔊 울음 해석
           </Link>
           <Link
+            href={`/pets/${pet.id}/behavior`}
+            className="text-sm font-medium text-sky-600 hover:underline"
+          >
+            🎥 행동 분석
+          </Link>
+          <Link
             href={`/pets/${pet.id}/edit`}
             className="text-sm font-medium text-orange-600 hover:underline"
           >
