@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SoundAnalyzer } from "@/components/SoundAnalyzer";
 import { SOUND_CATEGORY_ICON, SOUND_CATEGORY_LABEL } from "@/lib/labels";
+import { SpeakerIcon } from "@/components/icons";
 import type { Pet } from "@/lib/types";
 
 type SoundAnalysisRow = {
@@ -44,8 +45,9 @@ export default async function SoundPage({
         >
           ← {pet.name}
         </Link>
-        <h1 className="truncate text-base font-bold text-zinc-900 sm:text-lg">
-          🔊 무슨 말이니?
+        <h1 className="flex items-center justify-center gap-1.5 truncate text-base font-bold text-zinc-900 sm:text-lg">
+          <SpeakerIcon className="h-5 w-5 shrink-0 text-orange-500" />
+          무슨 말이니?
         </h1>
         <span className="w-8 shrink-0 sm:w-12" />
       </header>

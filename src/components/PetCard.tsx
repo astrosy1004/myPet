@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Pet } from "@/lib/types";
 import { SPECIES_LABEL } from "@/lib/labels";
 import { formatAge } from "@/lib/age";
+import { SpeakerIcon, VideoCameraIcon } from "@/components/icons";
 
 export function PetCard({ pet }: { pet: Pet }) {
   return (
@@ -35,16 +36,16 @@ export function PetCard({ pet }: { pet: Pet }) {
         <Link
           href={`/pets/${pet.id}/sound`}
           title="무슨 말이니? (울음 해석)"
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-50 text-xl transition hover:scale-105 hover:bg-orange-100"
+          className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-50 text-orange-500 transition hover:scale-105 hover:bg-orange-100"
         >
-          🔊
+          <SpeakerIcon className="h-5 w-5" />
         </Link>
         <Link
           href={`/pets/${pet.id}/behavior`}
           title="무슨 행동이니? (행동 분석)"
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-50 text-xl transition hover:scale-105 hover:bg-sky-100"
+          className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-50 text-sky-500 transition hover:scale-105 hover:bg-sky-100"
         >
-          🎥
+          <VideoCameraIcon className="h-5 w-5" />
         </Link>
       </div>
     </div>

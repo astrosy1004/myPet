@@ -7,6 +7,7 @@ import { DeletePetButton } from "@/components/DeletePetButton";
 import { AddWeightForm } from "@/components/AddWeightForm";
 import { WeightChart } from "@/components/WeightChart";
 import { FeedCalculator } from "@/components/FeedCalculator";
+import { PencilIcon, SpeakerIcon, VideoCameraIcon } from "@/components/icons";
 import type { Pet, WeightLog } from "@/lib/types";
 
 export default async function PetDetailPage({
@@ -47,23 +48,23 @@ export default async function PetDetailPage({
           <Link
             href={`/pets/${pet.id}/sound`}
             title="울음 해석"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-50 text-lg transition hover:bg-orange-100"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-50 text-orange-500 transition hover:bg-orange-100"
           >
-            🔊
+            <SpeakerIcon className="h-4 w-4" />
           </Link>
           <Link
             href={`/pets/${pet.id}/behavior`}
             title="행동 분석"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-lg transition hover:bg-sky-100"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-sky-500 transition hover:bg-sky-100"
           >
-            🎥
+            <VideoCameraIcon className="h-4 w-4" />
           </Link>
           <Link
             href={`/pets/${pet.id}/edit`}
             title="수정"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-100 text-lg transition hover:bg-zinc-200"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 transition hover:bg-zinc-200"
           >
-            ✏️
+            <PencilIcon className="h-4 w-4" />
           </Link>
           <DeletePetButton petId={pet.id} />
         </div>

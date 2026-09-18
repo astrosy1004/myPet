@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { BehaviorAnalyzer } from "@/components/BehaviorAnalyzer";
+import { VideoCameraIcon } from "@/components/icons";
 import type { Pet } from "@/lib/types";
 
 type BehaviorAnalysisRow = {
@@ -43,8 +44,9 @@ export default async function BehaviorPage({
         >
           ← {pet.name}
         </Link>
-        <h1 className="truncate text-base font-bold text-zinc-900 sm:text-lg">
-          🎥 무슨 행동이니?
+        <h1 className="flex items-center justify-center gap-1.5 truncate text-base font-bold text-zinc-900 sm:text-lg">
+          <VideoCameraIcon className="h-5 w-5 shrink-0 text-sky-500" />
+          무슨 행동이니?
         </h1>
         <span className="w-8 shrink-0 sm:w-12" />
       </header>
