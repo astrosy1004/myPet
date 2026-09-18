@@ -34,7 +34,12 @@ export default function VetsPage() {
             `/api/vets?lat=${latitude}&lng=${longitude}`,
           );
           const data = await res.json();
-          if (!res.ok) throw new Error(data.error ?? "검색에 실패했습니다.");
+          if (!res.ok) {
+            const detail = data.status
+              ? ` (status ${data.status}: ${data.detail ?? ""})`
+              : "";
+            throw new Error((data.error ?? "검색에 실패했습니다.") + detail);
+          }
           setVets(data.vets);
         } catch (err) {
           setError(

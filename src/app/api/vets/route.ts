@@ -43,8 +43,14 @@ export async function GET(request: Request) {
   });
 
   if (!res.ok) {
+    const detail = await res.text();
+    console.error("Kakao Local API error", res.status, detail);
     return NextResponse.json(
-      { error: "동물병원 검색에 실패했습니다." },
+      {
+        error: "동물병원 검색에 실패했습니다.",
+        status: res.status,
+        detail,
+      },
       { status: 502 },
     );
   }
