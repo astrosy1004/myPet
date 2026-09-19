@@ -90,6 +90,15 @@ export default function LoginPage() {
             회원가입
           </Link>
         </p>
+
+        <div className="mt-4 flex justify-center gap-4 border-t border-zinc-100 pt-4 text-xs text-zinc-400">
+          <Link href="/breeds" className="hover:text-zinc-600">
+            📖 품종 정보 둘러보기
+          </Link>
+          <Link href="/vets" className="hover:text-zinc-600">
+            🏥 근처 동물병원 찾기
+          </Link>
+        </div>
       </div>
     </div>
   );

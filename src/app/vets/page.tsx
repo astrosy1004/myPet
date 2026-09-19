@@ -1,69 +1,21 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { VetsSearch } from "@/components/VetsSearch";
 
-type Vet = {
-  id: string;
-  name: string;
-  address: string;
-  phone: string | null;
-  distance: number | null;
-  placeUrl: string;
-};
-
-export default function VetsPage() {
-  const [vets, setVets] = useState<Vet[] | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  function findNearby() {
-    if (!navigator.geolocation) {
-      setError("이 브라우저에서는 위치 정보를 사용할 수 없습니다.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          const { latitude, longitude } = position.coords;
-          const res = await fetch(
-            `/api/vets?lat=${latitude}&lng=${longitude}`,
-          );
-          const data = await res.json();
-          if (!res.ok) {
-            const detail = data.status
-              ? ` (status ${data.status}: ${data.detail ?? ""})`
-              : "";
-            throw new Error((data.error ?? "검색에 실패했습니다.") + detail);
-          }
-          setVets(data.vets);
-        } catch (err) {
-          setError(
-            err instanceof Error ? err.message : "검색에 실패했습니다.",
-          );
-        } finally {
-          setLoading(false);
-        }
-      },
-      () => {
-        setError("위치 권한을 허용해주세요.");
-        setLoading(false);
-      },
-    );
-  }
+export default async function VetsPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="flex flex-1 flex-col">
       <header className="flex items-center justify-between gap-2 border-b border-zinc-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
         <Link
-          href="/"
+          href={user ? "/" : "/login"}
           className="shrink-0 text-sm text-zinc-500 hover:text-zinc-800"
         >
-          ← 홈으로
+          {user ? "← 홈으로" : "← 로그인"}
         </Link>
         <h1 className="truncate text-base font-bold text-zinc-900 sm:text-lg">
           🏥 근처 동물병원
@@ -72,45 +24,19 @@ export default function VetsPage() {
       </header>
 
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-6 sm:px-6 sm:py-10">
-        <button
-          onClick={findNearby}
-          disabled={loading}
-          className="mb-6 w-full rounded-lg bg-orange-500 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
-        >
-          {loading ? "검색 중..." : "내 주변 동물병원 찾기"}
-        </button>
-
-        {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
-
-        {vets && vets.length === 0 && (
-          <p className="text-sm text-zinc-400">
-            주변 5km 내 동물병원을 찾지 못했습니다.
-          </p>
+        {!user && (
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-2xl bg-orange-50 px-4 py-3 text-sm text-orange-700">
+            <span>회원가입하면 반려동물을 등록하고 더 많은 기능을 쓸 수 있어요.</span>
+            <Link
+              href="/signup"
+              className="shrink-0 rounded-full bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-orange-600"
+            >
+              회원가입
+            </Link>
+          </div>
         )}
 
-        {vets && vets.length > 0 && (
-          <ul className="flex flex-col gap-3">
-            {vets.map((vet) => (
-              <li key={vet.id} className="rounded-2xl bg-white p-4 shadow-sm">
-                <a
-                  href={vet.placeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-zinc-900 hover:underline"
-                >
-                  {vet.name}
-                </a>
-                <p className="mt-1 text-sm text-zinc-500">{vet.address}</p>
-                <div className="mt-2 flex items-center gap-3 text-xs text-zinc-400">
-                  {vet.distance !== null && (
-                    <span>{(vet.distance / 1000).toFixed(1)}km</span>
-                  )}
-                  {vet.phone && <span>{vet.phone}</span>}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+        <VetsSearch />
       </main>
     </div>
   );

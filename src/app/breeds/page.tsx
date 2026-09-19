@@ -20,6 +20,9 @@ export default async function BreedsPage({
 }) {
   const { species, q } = await searchParams;
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   let query = supabase.from("breeds").select("*").order("name");
   if (species === "cat" || species === "dog") {
@@ -35,10 +38,10 @@ export default async function BreedsPage({
     <div className="flex flex-1 flex-col">
       <header className="flex items-center justify-between gap-2 border-b border-zinc-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
         <Link
-          href="/"
+          href={user ? "/" : "/login"}
           className="shrink-0 text-sm text-zinc-500 hover:text-zinc-800"
         >
-          ← 홈으로
+          {user ? "← 홈으로" : "← 로그인"}
         </Link>
         <h1 className="truncate text-base font-bold text-zinc-900 sm:text-lg">
           📖 품종 정보
@@ -47,6 +50,18 @@ export default async function BreedsPage({
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:px-6 sm:py-10">
+        {!user && (
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-2xl bg-orange-50 px-4 py-3 text-sm text-orange-700">
+            <span>회원가입하면 반려동물을 등록하고 더 많은 기능을 쓸 수 있어요.</span>
+            <Link
+              href="/signup"
+              className="shrink-0 rounded-full bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-orange-600"
+            >
+              회원가입
+            </Link>
+          </div>
+        )}
+
         <form method="get" className="mb-6 flex flex-wrap gap-3">
           <select
             name="species"
