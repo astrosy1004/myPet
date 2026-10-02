@@ -25,41 +25,23 @@ function GoogleIcon() {
   );
 }
 
-function KakaoIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="#000000">
-      <path d="M12 3C6.48 3 2 6.58 2 11c0 2.89 1.95 5.42 4.88 6.84-.22.78-.78 2.8-.89 3.23-.14.55.2.54.42.39.17-.12 2.7-1.83 3.8-2.58.58.08 1.18.12 1.79.12 5.52 0 10-3.58 10-8s-4.48-8-10-8z" />
-    </svg>
-  );
-}
-
 export function OAuthButtons() {
-  async function handleOAuth(provider: "google" | "kakao") {
+  async function handleGoogleLogin() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
-      provider,
+      provider: "google",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <button
-        type="button"
-        onClick={() => handleOAuth("google")}
-        className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-white py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50"
-      >
-        <GoogleIcon />
-        Google로 계속하기
-      </button>
-      <button
-        type="button"
-        onClick={() => handleOAuth("kakao")}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#FEE500] py-2.5 text-sm font-medium text-zinc-900 transition hover:brightness-95"
-      >
-        <KakaoIcon />
-        카카오로 계속하기
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={handleGoogleLogin}
+      className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-white py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50"
+    >
+      <GoogleIcon />
+      Google로 계속하기
+    </button>
   );
 }
