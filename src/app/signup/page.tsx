@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { OAuthButtons } from "@/components/OAuthButtons";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -63,6 +64,14 @@ export default function SignupPage() {
         <p className="mb-6 text-sm text-zinc-500">
           집사님의 정보를 입력해주세요
         </p>
+
+        <OAuthButtons />
+
+        <div className="my-5 flex items-center gap-3">
+          <div className="h-px flex-1 bg-zinc-200" />
+          <span className="text-xs text-zinc-400">또는</span>
+          <div className="h-px flex-1 bg-zinc-200" />
+        </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
