@@ -37,7 +37,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       suppressHydrationWarning
-      className="fixed right-4 bottom-4 z-50 flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-lg ring-1 ring-zinc-200 transition hover:scale-105"
+      className="fixed right-4 bottom-20 z-50 flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-lg ring-1 ring-zinc-200 transition hover:scale-105"
     >
       {theme === "cute" ? "🎨 기본 테마" : "🐰 귀여운 테마"}
     </button>

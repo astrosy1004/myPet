@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Pet } from "@/lib/types";
 import { SPECIES_LABEL } from "@/lib/labels";
 import { formatAge } from "@/lib/age";
-import { SpeakerIcon, VideoCameraIcon } from "@/components/icons";
+import { ChevronRightIcon, SpeakerIcon, VideoCameraIcon } from "@/components/icons";
 
 export function PetCard({ pet }: { pet: Pet }) {
   return (
@@ -47,6 +47,7 @@ export function PetCard({ pet }: { pet: Pet }) {
         >
           <VideoCameraIcon className="h-5 w-5" />
         </Link>
+        <ChevronRightIcon className="h-4 w-4 text-zinc-300" />
       </div>
     </div>
   );
