@@ -24,6 +24,7 @@ export function SoundAnalyzer({
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -103,6 +104,7 @@ export function SoundAnalyzer({
       return;
     }
 
+    setFileName(file.name);
     setAudioBlob(file);
     setAudioUrl(URL.createObjectURL(file));
   }
@@ -146,6 +148,7 @@ export function SoundAnalyzer({
     setAudioUrl(null);
     setResult(null);
     setError(null);
+    setFileName(null);
   }
 
   return (
@@ -175,12 +178,15 @@ export function SoundAnalyzer({
 
           <div className="text-center text-xs text-zinc-400">또는</div>
 
-          <input
-            type="file"
-            accept="audio/mp3,audio/mpeg,audio/wav,audio/x-wav"
-            onChange={handleFileChange}
-            className="w-full text-sm text-zinc-600"
-          />
+          <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 py-3 text-sm font-semibold text-zinc-600 transition hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600">
+            📁 {fileName ?? "파일 선택 (mp3, wav)"}
+            <input
+              type="file"
+              accept="audio/mp3,audio/mpeg,audio/wav,audio/x-wav"
+              onChange={handleFileChange}
+              className="sr-only"
+            />
+          </label>
         </div>
       )}
 

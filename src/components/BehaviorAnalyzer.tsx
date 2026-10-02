@@ -160,12 +160,15 @@ export function BehaviorAnalyzer({
       </p>
 
       {!videoUrl && (
-        <input
-          type="file"
-          accept="video/mp4,video/quicktime,video/webm"
-          onChange={handleFileChange}
-          className="w-full text-sm text-zinc-600"
-        />
+        <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 py-3 text-sm font-semibold text-zinc-600 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-600">
+          📁 영상 파일 선택 (mp4, mov)
+          <input
+            type="file"
+            accept="video/mp4,video/quicktime,video/webm"
+            onChange={handleFileChange}
+            className="sr-only"
+          />
+        </label>
       )}
 
       {videoUrl && (

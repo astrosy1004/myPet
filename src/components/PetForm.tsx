@@ -22,6 +22,7 @@ export function PetForm({
   const action = pet ? updatePet.bind(null, pet.id) : createPet;
   const [state, formAction, isPending] = useActionState(action, initialState);
   const [species, setSpecies] = useState<Species>(pet?.species ?? "cat");
+  const [photoName, setPhotoName] = useState<string | null>(null);
 
   const breedOptions = breeds
     .filter((b) => b.species === species)
@@ -153,12 +154,16 @@ export function PetForm({
             className="mb-2 h-16 w-16 rounded-full object-cover"
           />
         )}
-        <input
-          type="file"
-          name="photo"
-          accept="image/*"
-          className="w-full text-sm text-zinc-600"
-        />
+        <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 py-3 text-sm font-semibold text-zinc-600 transition hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600">
+          📁 {photoName ?? "사진 선택"}
+          <input
+            type="file"
+            name="photo"
+            accept="image/*"
+            onChange={(e) => setPhotoName(e.target.files?.[0]?.name ?? null)}
+            className="sr-only"
+          />
+        </label>
       </div>
 
       {state?.error && <p className="text-sm text-red-500">{state.error}</p>}
