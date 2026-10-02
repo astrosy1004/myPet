@@ -17,21 +17,31 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    setLoading(false);
+      if (error) {
+        if (error.message.toLowerCase().includes("invalid login credentials")) {
+          setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+        } else {
+          setError(`로그인에 실패했습니다: ${error.message}`);
+        }
+        return;
+      }
 
-    if (error) {
-      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
-      return;
+      router.replace("/");
+      router.refresh();
+    } catch {
+      setError(
+        "서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요. (Supabase 프로젝트가 일시정지되어 있을 수 있습니다)",
+      );
+    } finally {
+      setLoading(false);
     }
-
-    router.replace("/");
-    router.refresh();
   }
 
   return (
