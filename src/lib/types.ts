@@ -23,3 +23,23 @@ export type WeightLog = {
   recorded_at: string;
   created_at: string;
 };
+
+export type Vaccination = {
+  id: string;
+  pet_id: string;
+  vaccine_name: string;
+  administered_date: string;
+  next_due_date: string | null;
+  notes: string | null;
+  created_at: string;
+};
+
+export type VetVisit = {
+  id: string;
+  pet_id: string;
+  visit_date: string;
+  reason: string;
+  diagnosis: string | null;
+  notes: string | null;
+  created_at: string;
+};

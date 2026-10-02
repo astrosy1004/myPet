@@ -7,7 +7,12 @@ import { DeletePetButton } from "@/components/DeletePetButton";
 import { AddWeightForm } from "@/components/AddWeightForm";
 import { WeightChart } from "@/components/WeightChart";
 import { FeedCalculator } from "@/components/FeedCalculator";
-import { PencilIcon, SpeakerIcon, VideoCameraIcon } from "@/components/icons";
+import {
+  HealthIcon,
+  PencilIcon,
+  SpeakerIcon,
+  VideoCameraIcon,
+} from "@/components/icons";
 import type { Pet, WeightLog } from "@/lib/types";
 
 export default async function PetDetailPage({
@@ -45,6 +50,13 @@ export default async function PetDetailPage({
           ← 목록
         </Link>
         <div className="flex items-center gap-1.5">
+          <Link
+            href={`/pets/${pet.id}/health`}
+            title="건강 관리"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
+          >
+            <HealthIcon className="h-4 w-4" />
+          </Link>
           <Link
             href={`/pets/${pet.id}/sound`}
             title="울음 해석"
