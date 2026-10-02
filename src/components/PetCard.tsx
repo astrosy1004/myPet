@@ -47,7 +47,13 @@ export function PetCard({ pet }: { pet: Pet }) {
         >
           <VideoCameraIcon className="h-5 w-5" />
         </Link>
-        <ChevronRightIcon className="h-4 w-4 text-zinc-300" />
+        <Link
+          href={`/pets/${pet.id}`}
+          title="상세 보기"
+          className="flex h-11 w-6 items-center justify-center text-zinc-300 transition hover:text-zinc-500"
+        >
+          <ChevronRightIcon className="h-4 w-4" />
+        </Link>
       </div>
     </div>
   );
