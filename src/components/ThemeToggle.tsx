@@ -3,26 +3,37 @@
 import { useState } from "react";
 
 const STORAGE_KEY = "myPet-theme";
-type Theme = "default" | "cute";
+type Theme = "default" | "dark" | "cute";
+
+const NEXT: Record<Theme, Theme> = {
+  default: "dark",
+  dark: "cute",
+  cute: "default",
+};
+
+const THEME_LABELS: Record<Theme, string> = {
+  default: "🎨 기본 테마",
+  dark: "🌙 다크 테마",
+  cute: "🐰 귀여운 테마",
+};
 
 function getInitialTheme(): Theme {
   if (typeof document === "undefined") return "default";
-  return document.documentElement.getAttribute("data-theme") === "cute"
-    ? "cute"
-    : "default";
+  const attr = document.documentElement.getAttribute("data-theme");
+  return attr === "dark" || attr === "cute" ? attr : "default";
 }
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   function toggle() {
-    const next: Theme = theme === "cute" ? "default" : "cute";
+    const next = NEXT[theme];
     setTheme(next);
 
-    if (next === "cute") {
-      document.documentElement.setAttribute("data-theme", "cute");
-    } else {
+    if (next === "default") {
       document.documentElement.removeAttribute("data-theme");
+    } else {
+      document.documentElement.setAttribute("data-theme", next);
     }
 
     try {
@@ -39,7 +50,7 @@ export function ThemeToggle() {
       suppressHydrationWarning
       className="fixed right-4 bottom-20 z-50 flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-lg ring-1 ring-zinc-200 transition hover:scale-105"
     >
-      {theme === "cute" ? "🎨 기본 테마" : "🐰 귀여운 테마"}
+      {THEME_LABELS[NEXT[theme]]}
     </button>
   );
 }

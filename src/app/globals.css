@@ -13,13 +13,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -73,4 +66,56 @@ body {
 :root[data-theme="cute"] h1,
 :root[data-theme="cute"] h2 {
   color: var(--color-orange-600);
+}
+
+/* 다크 테마: 어두운 네이비 배경 + 별이 흩뿌려진 듯한 패턴, 선명한
+   포인트 컬러. 일러스트 캐릭터는 넣을 수 없어 분위기(톤)로 대신한다. */
+:root[data-theme="dark"] {
+  --color-white: #1c2033;
+
+  --color-orange-50: #11131d;
+  --color-orange-100: #2a2140;
+  --color-orange-400: #ff9f5a;
+  --color-orange-500: #ff7e3d;
+  --color-orange-600: #ff6a1a;
+  --color-orange-700: #ffb380;
+
+  --color-sky-50: #10151f;
+  --color-sky-100: #1c2b3d;
+  --color-sky-500: #4fb6e8;
+  --color-sky-600: #6cc5f0;
+
+  --color-emerald-50: #0f1a17;
+  --color-emerald-100: #1a2e28;
+  --color-emerald-600: #22c585;
+
+  --color-red-50: #1f1416;
+  --color-red-100: #3a1f22;
+  --color-red-500: #ff6b5b;
+  --color-red-600: #ff8a7d;
+
+  --color-zinc-50: #161a26;
+  --color-zinc-100: #1f2432;
+  --color-zinc-200: #2a3040;
+  --color-zinc-300: #3a4155;
+  --color-zinc-400: #7b8499;
+  --color-zinc-500: #9aa3b8;
+  --color-zinc-600: #b8c0d1;
+  --color-zinc-700: #d2d8e4;
+  --color-zinc-800: #e5e9f0;
+  --color-zinc-900: #f5f7fa;
+}
+
+:root[data-theme="dark"] body {
+  background-color: var(--color-orange-50);
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.5) 1px,
+    transparent 1px
+  );
+  background-size: 36px 36px;
+}
+
+:root[data-theme="dark"] .shadow-sm {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }

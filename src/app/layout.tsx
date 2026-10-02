@@ -36,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           // 하이드레이션 전에 저장된 테마를 적용해 화면 깜빡임(FOUC)을 방지한다.
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(localStorage.getItem('myPet-theme')==='cute'){document.documentElement.setAttribute('data-theme','cute');}}catch(e){}",
+              "try{var t=localStorage.getItem('myPet-theme');if(t==='cute'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}",
           }}
         />
       </head>
