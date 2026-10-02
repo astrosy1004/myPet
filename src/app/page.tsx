@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { PetCard } from "@/components/PetCard";
 import { formatDday } from "@/lib/dday";
+import { BookIcon, MapPinIcon, PawIcon } from "@/components/icons";
 import type { Pet } from "@/lib/types";
 
 type UpcomingVaccination = {
@@ -43,27 +44,26 @@ export default async function Home() {
 
   return (
     <div className="flex flex-1 flex-col">
-      <header className="flex items-center justify-between gap-2 border-b border-zinc-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
-        <h1 className="truncate text-base font-bold text-zinc-900 sm:text-lg">
-          🐾 행복한 집사생활
-        </h1>
-        <form action="/auth/signout" method="post">
-          <button
-            type="submit"
-            className="text-sm text-zinc-500 hover:text-zinc-800"
-          >
-            로그아웃
-          </button>
-        </form>
-      </header>
+      <div className="bg-gradient-to-br from-orange-500 to-orange-400 px-4 pt-6 pb-10 text-white sm:px-6">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-2">
+          <h1 className="truncate text-base font-bold sm:text-lg">
+            🐾 행복한 집사생활
+          </h1>
+          <form action="/auth/signout" method="post">
+            <button
+              type="submit"
+              className="shrink-0 text-sm text-orange-100 hover:text-white"
+            >
+              로그아웃
+            </button>
+          </form>
+        </div>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:px-6 sm:py-10">
-        <p className="mb-4 truncate text-sm text-zinc-500">
-          {user?.email}님, 환영합니다!
-        </p>
-
-        <div className="mb-6 rounded-3xl bg-gradient-to-br from-orange-500 to-orange-400 p-6 text-white shadow-sm">
-          <p className="text-sm font-medium text-orange-100">
+        <div className="mx-auto mt-6 max-w-3xl">
+          <p className="truncate text-sm text-orange-100">
+            {user?.email}님, 환영합니다!
+          </p>
+          <p className="mt-3 text-sm font-medium text-orange-100">
             등록된 반려동물
           </p>
           <p className="text-5xl font-bold">{pets?.length ?? 0}마리</p>
@@ -84,13 +84,32 @@ export default async function Home() {
             </div>
           )}
         </div>
+      </div>
 
-        <div className="mb-4 flex justify-end">
+      <main className="mx-auto -mt-5 w-full max-w-3xl flex-1 rounded-t-3xl bg-white px-4 py-6 sm:px-6 sm:py-10">
+        <div className="mb-6 flex gap-3 overflow-x-auto pb-1">
           <Link
             href="/pets/new"
-            className="rounded-full bg-orange-500 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-orange-600"
+            className="flex min-w-[128px] flex-col justify-between rounded-2xl bg-gradient-to-br from-orange-400 to-orange-500 p-4 text-white transition hover:brightness-105"
           >
-            + 반려동물 등록
+            <PawIcon className="h-5 w-5" />
+            <span className="mt-6 text-sm font-semibold">
+              + 반려동물 등록
+            </span>
+          </Link>
+          <Link
+            href="/breeds"
+            className="flex min-w-[128px] flex-col justify-between rounded-2xl bg-gradient-to-br from-sky-400 to-sky-500 p-4 text-white transition hover:brightness-105"
+          >
+            <BookIcon className="h-5 w-5" />
+            <span className="mt-6 text-sm font-semibold">품종 정보</span>
+          </Link>
+          <Link
+            href="/vets"
+            className="flex min-w-[128px] flex-col justify-between rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-500 p-4 text-white transition hover:brightness-105"
+          >
+            <MapPinIcon className="h-5 w-5" />
+            <span className="mt-6 text-sm font-semibold">동물병원 찾기</span>
           </Link>
         </div>
 
